@@ -1,5 +1,6 @@
 <template>
   <section>
+
     <div class="row">
       <div class="col-md-6">
         <div class="card shadow mb-4">
@@ -91,8 +92,9 @@
       </div>
     </div>
 
-    <button @click="saveProduct" type="submit" class="btn btn-lg btn-primary">Save</button>
+    <button @click="saveProduct" class="btn btn-lg btn-primary">Save</button>
     <button type="button" class="btn btn-secondary btn-lg">Cancel</button>
+
   </section>
 </template>
 
@@ -101,6 +103,16 @@ import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 import InputTag from 'vue-input-tag'
 import axios from 'axios'
+
+axios.interceptors.request.use(request => {
+    console.log('Starting Request', JSON.stringify(request, null, 2))
+    return request
+})
+
+axios.interceptors.response.use(response => {
+    console.log('Response:', JSON.stringify(response, null, 2))
+    return response
+})
 
 export default {
   components: {
@@ -190,7 +202,7 @@ export default {
       }
 
 
-      axios.post('/product', product).then(response => {
+      axios.post('/product/save/', product).then(response => {
         console.log(response.data);
       }).catch(error => {
         console.log(error);
@@ -198,7 +210,6 @@ export default {
 
       console.log(product);
     }
-
 
   },
   mounted() {
